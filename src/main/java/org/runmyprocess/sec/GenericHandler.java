@@ -25,7 +25,7 @@ import org.runmyprocess.json.JSONObject;
  *   limitations under the License.
  */
 public class GenericHandler {
-
+    private static final  SECLogManager LOG = new SECLogManager(GenericHandler.class.getName());
 	/**
 	 * Sets up manager connections and runs the handler class
 	 * @param config handler's config files
@@ -48,24 +48,21 @@ public class GenericHandler {
     		configInfo.put("pingFrequency",Integer.parseInt(config.getProperty("pingFrequency")));
     		
 		}catch (NullPointerException e) {
-        	SECErrorManager errorManager = new SECErrorManager();
-        	errorManager.logError(e.getMessage(), Level.SEVERE);
+            LOG.logError(e.getMessage(), Level.SEVERE);
 		}
     	//LISTEN TO PORT
     	try{
             new HandlerListenerThread(inputHandler,configInfo.getInteger("connectionPort"), configInfo.getString("protocolClass")).start();//Listen to input port
         	} catch( Exception e ) {
-            	SECErrorManager errorManager = new SECErrorManager();
-            	errorManager.logError(e.getMessage(), Level.SEVERE);
+                LOG.logError(e.getMessage(), Level.SEVERE);
         	}
     	
     	//PING PROTOCOL MANAGER  
 		try{
 			new PingThread(configInfo).start();
     	}catch( Exception e ){
-        	SECErrorManager errorManager = new SECErrorManager();
-        	errorManager.logError(e.getMessage(), Level.SEVERE);
-    		}
+            LOG.logError(e.getMessage(), Level.SEVERE);
+        }
 		
         }
 

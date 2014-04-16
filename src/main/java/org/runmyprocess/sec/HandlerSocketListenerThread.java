@@ -35,6 +35,7 @@ public class HandlerSocketListenerThread extends Thread {
     private Socket socket = null;
     private InputHandlerInterface listener;
     private String protocolClass;
+    private static final  SECLogManager LOG = new SECLogManager(HandlerSocketListenerThread.class.getName());
 
     /**
      * Sets the socket parameters to listen for the manager
@@ -48,7 +49,6 @@ public class HandlerSocketListenerThread extends Thread {
         this.listener = listener;
         this.protocolClass = protocolClass;
     }
-
     /**
      * Start listening to the configured socket for information sent from the manager
      */
@@ -66,11 +66,10 @@ public class HandlerSocketListenerThread extends Thread {
             }
             
         } catch (Exception ex) {
-        	SECErrorManager exceptionError = new SECErrorManager();
-        	exceptionError.setMessage(Http_SEC_Errors.HANDLER_ERROR.getMessage()+": "+ex.getMessage());
+            LOG.setMessage(Http_SEC_Errors.HANDLER_ERROR.getMessage()+": "+ex.getMessage());
         	response = new Response();
         	response.setStatus(Http_SEC_Errors.HANDLER_ERROR.getId());
-        	response.setData(exceptionError.getErrorObject());
+        	response.setData(LOG.getErrorObject());
             Logger.getLogger(HandlerSocketListenerThread.class.getName()).log(Level.WARNING, null, ex);
 
         } finally {
@@ -78,11 +77,10 @@ public class HandlerSocketListenerThread extends Thread {
 				new DataOutputStream(socket.getOutputStream()).write(response.getObjectResponse().toString().getBytes("UTF-8"));//returns the json reply and concatenates the status 
 				socket.close();
 			} catch (Exception ex) {
-				SECErrorManager exceptionError = new SECErrorManager();
-	        	exceptionError.setMessage(Http_SEC_Errors.HANDLER_ERROR.getMessage()+": "+ex.getMessage());
+                LOG.setMessage(Http_SEC_Errors.HANDLER_ERROR.getMessage()+": "+ex.getMessage());
 	        	response = new Response();
 	        	response.setStatus(Http_SEC_Errors.HANDLER_ERROR.getId());
-	        	response.setData(exceptionError.getErrorObject());
+	        	response.setData(LOG.getErrorObject());
 	            Logger.getLogger(HandlerSocketListenerThread.class.getName()).log(Level.SEVERE, null, ex);
 
 			}

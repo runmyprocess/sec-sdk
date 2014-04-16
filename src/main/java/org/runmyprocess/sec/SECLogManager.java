@@ -1,15 +1,13 @@
 package org.runmyprocess.sec;
 
 
+import org.runmyprocess.json.JSONObject;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-import org.runmyprocess.json.JSONObject;
-
 /**
- * DEPRECATED CLASS (use SECLogManager)
+ *
  * @author Malcolm Haslam <mhaslam@runmyprocess.com>
  *
  * Copyright (C) 2013 Fujitsu RunMyProcess
@@ -30,15 +28,15 @@ import org.runmyprocess.json.JSONObject;
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-public class SECErrorManager {
+public class SECLogManager {
 
-	private String message; 
-	private static Logger logger = Logger.getLogger(SECErrorManager.class.getName());
+	private String message;
+	private static Logger logger = Logger.getLogger(SECLogManager.class.getName());
 
-    public SECErrorManager(){
+    public SECLogManager(){
 
     }
-    public SECErrorManager(String className){
+    public SECLogManager(String className){
         logger =   Logger.getLogger(className);
     }
 	/**
